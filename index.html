@@ -3,662 +3,1073 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nelons IT | Cambridge Tech & Security Consultancy</title>
+    <title>Nelons IT | AI Governance & Upskilling in Cambridge</title>
+    <meta name="description" content="Fractional Corporate AI Strategy & Governance Advisor in Cambridge, UK. Protecting IP and ensuring EU AI Act compliance.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- Core Variables & Reset --- */
+        /* -----------------------------------------------------------
+           1. CSS Variables - Premium Cool Corporate & Tech Accents
+           ----------------------------------------------------------- */
         :root {
-            --bg-base: #070B14;
-            --bg-surface: #0F172A;
-            --bg-glass: rgba(15, 23, 42, 0.7);
+            --bg-main: #F8FAFC;       
+            --bg-surface: #FFFFFF;    
+            --bg-alt: #F1F5F9;        
             
-            --cambridge-blue: #A3C1AD;
-            --cambridge-blue-glow: rgba(163, 193, 173, 0.3);
-            --cambridge-blue-bright: #B5D4BF;
+            --text-heading: #0F172A;  
+            --text-body: #475569;     
+            --text-light: #94A3B8;
             
-            --text-primary: #F8FAFC;
-            --text-secondary: #94A3B8;
+            --primary: #1E293B;       
+            --primary-hover: #334155;
+            --accent: #0284C7;
+            --accent-glow: rgba(2, 132, 199, 0.08);
             
-            --border-light: rgba(163, 193, 173, 0.15);
-            
-            --curve: cubic-bezier(0.16, 1, 0.3, 1);
-            --transition: all 0.4s var(--curve);
+            --border: #E2E8F0;
+            --font-main: 'Inter', sans-serif;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --transition: all 0.5s var(--ease-out);
+
+            /* Dynamic Ring Spectrum Palette */
+            --spectrum-cyan: #06B6D4;
+            --spectrum-magenta: #EC4899;
+            --spectrum-indigo: #6366F1;
+            --spectrum-amber: #F59E0B;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
 
         html {
             scroll-behavior: smooth;
-            background-color: var(--bg-base);
+            font-size: 16px;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: var(--text-primary);
-            line-height: 1.6;
+            background-color: var(--bg-main);
+            color: var(--text-body);
+            font-family: var(--font-main);
+            line-height: 1.7;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
+        /* -----------------------------------------------------------
+           2. Custom Follow Cursor
+           ----------------------------------------------------------- */
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10001;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background 0.3s;
+        }
 
-        /* --- Reusable Layout --- */
+        #cursor-ring {
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(2, 132, 199, 0.3);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: transform 0.15s ease-out, width 0.3s, height 0.3s, border-color 0.3s;
+        }
+
+        .cursor-hover #cursor-dot {
+            background: transparent;
+        }
+
+        .cursor-hover #cursor-ring {
+            width: 48px;
+            height: 48px;
+            border-color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        @media (pointer: coarse) {
+            #cursor-dot, #cursor-ring {
+                display: none !important;
+            }
+            * {
+                cursor: auto !important;
+            }
+        }
+
+        /* -----------------------------------------------------------
+           3. Typography & Utilities
+           ----------------------------------------------------------- */
+        h1, h2, h3, h4 {
+            color: var(--text-heading);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
         .container {
-            width: 100%;
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        .section-padding { padding: 120px 0; }
-
-        /* --- Typography & Buttons --- */
-        .heading-lg {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: -1px;
-            margin-bottom: 24px;
-        }
-
-        .heading-md {
-            font-size: clamp(2rem, 3vw, 2.75rem);
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 40px;
-        }
-
-        .text-accent { color: var(--cambridge-blue); }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px 32px;
-            background-color: var(--cambridge-blue);
-            color: var(--bg-base);
-            font-weight: 700;
-            font-size: 1.05rem;
-            border-radius: 4px;
-            border: 1px solid var(--cambridge-blue);
-            cursor: pointer;
-            transition: var(--transition);
+            padding: 0 5%;
             position: relative;
-            overflow: hidden;
-            z-index: 1;
+            z-index: 2;
         }
 
-        .btn::after {
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .bg-alt {
+            background-color: var(--bg-alt);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .styled-list {
+            list-style: none;
+            margin-top: 16px;
+        }
+
+        .styled-list li {
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .styled-list li::before {
             content: '';
             position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 0%;
-            background-color: var(--text-primary);
-            transition: var(--transition);
-            z-index: -1;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent);
+            opacity: 0.7;
+            border-radius: 50%;
         }
 
-        .btn:hover {
-            color: var(--bg-base);
-            box-shadow: 0 0 25px var(--cambridge-blue-glow);
-            transform: translateY(-2px);
+        /* Static Section Ambient Risk Rings */
+        .risk-ring {
+            position: absolute;
+            border: 2px dashed var(--accent);
+            border-radius: 50%;
+            opacity: 0.15;
+            pointer-events: none;
+            animation: spinRing linear infinite;
+            z-index: 0;
+            will-change: transform;
         }
 
-        .btn:hover::after { height: 100%; }
+        @keyframes spinRing {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
-        /* --- Navigation (Glassmorphism) --- */
-        nav {
+        /* -----------------------------------------------------------
+           4. Enhanced High-Velocity 3D Canvas (Wider & Hyper-Colorful)
+           ----------------------------------------------------------- */
+        #hero {
+            min-height: 95vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            background: radial-gradient(circle at top right, var(--bg-surface) 0%, var(--bg-main) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-ring-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* Fills more of the viewport screen space on either side */
+            width: 1700px;
+            height: 1700px;
+            margin-top: -850px;
+            margin-left: -850px;
+            z-index: 1;
+            pointer-events: none; 
+            perspective: 3000px;  
+            /* Keeps background elements subtle, scaling visibility with cursor proximity */
+            opacity: calc(0.28 + var(--proximity, 0) * 0.32);
+            transition: opacity 0.5s var(--ease-out);
+        }
+
+        .paradox-visual-container {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            will-change: transform;
+            /* Driven entirely via real-time hardware accelerated Javascript styling variables */
+            transform: rotateX(calc(var(--tilt-x, 0) * 1deg)) rotateY(calc(var(--tilt-y, 0) * 1deg));
+            filter: saturate(calc(1 + var(--proximity, 0) * 1.8)); 
+            transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s ease;
+        }
+
+        .paradox-visual-base {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transform-style: preserve-3d;
+        }
+
+        /* Central Reactive Core Glow */
+        .core-circle-interactive {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            z-index: 10;
+            transform: translateZ(120px);
+            background: radial-gradient(circle at center, rgba(6, 182, 212, 0.35) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 75%);
+            scale: calc(1 + var(--proximity, 0) * 0.4); 
+            transition: scale 0.3s var(--ease-out);
+        }
+
+        .hero-interactive-ring {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+
+        .hero-interactive-ring svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .stylistic-line-interactive {
+            fill: none;
+            stroke-linecap: round;
+            transition: stroke-width 0.3s ease;
+            stroke-width: calc(0.4 + var(--proximity, 0) * 0.8); 
+        }
+
+        /* Hyper-Colorful Structural Dashed Layer Circuits */
+        .inner-line-int { 
+            stroke: var(--spectrum-cyan); 
+            stroke-dasharray: 40 20 10 20; 
+            filter: drop-shadow(0 0 12px rgba(6, 182, 212, 0.5));
+        }
+        .mid-line-int { 
+            stroke: var(--spectrum-magenta); 
+            stroke-dasharray: 80 15 20 15; 
+            filter: drop-shadow(0 0 16px rgba(236, 72, 153, 0.4));
+        }
+        .outer-line-int { 
+            stroke: var(--spectrum-indigo); 
+            stroke-dasharray: 6 25 2 25; 
+            filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.2));
+        }
+
+        /* Tiny Continuous Micro-Typography Embeds */
+        .outer-ring-text {
+            font-size: 5px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            fill: var(--spectrum-indigo);
+            fill-opacity: calc(0.4 + var(--proximity, 0) * 0.6);
+            transition: fill-opacity 0.3s ease;
+        }
+
+        /* Ambient Dynamic Kinetics */
+        @keyframes spinFwdInteractive {
+            from { transform: rotate(0deg) translateZ(30px); }
+            to { transform: rotate(360deg) translateZ(30px); }
+        }
+        @keyframes spinRevInteractive {
+            from { transform: rotate(360deg) translateZ(60px); }
+            to { transform: rotate(0deg) translateZ(60px); }
+        }
+
+        /* Fast-acting interactive loops matching user prompt enhancements */
+        .spin-fwd-int { animation: spinFwdInteractive 45s linear infinite; }
+        .spin-rev-int { animation: spinRevInteractive 30s linear infinite; }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            max-width: 650px;
+        }
+
+        /* -----------------------------------------------------------
+           5. Header Navigation
+           ----------------------------------------------------------- */
+        header {
             position: fixed;
-            top: 0; left: 0; width: 100%;
-            background: var(--bg-glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-light);
-            z-index: 1000;
+            top: 0;
+            width: 100%;
             padding: 20px 0;
-            transition: var(--transition);
+            background: rgba(248, 250, 252, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
         }
 
-        .nav-content {
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 1px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo span {
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 500;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
         }
 
         .nav-links {
-            display: none;
-            gap: 32px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
         }
 
         .nav-links a {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover { color: var(--cambridge-blue); }
-
-        @media (min-width: 768px) { .nav-links { display: flex; } }
-
-        /* --- Auto-Scrolling Marquee Animation --- */
-        .marquee-container {
-            width: 100%;
-            background-color: var(--cambridge-blue);
-            color: var(--bg-base);
-            padding: 12px 0;
-            overflow: hidden;
-            display: flex;
-            white-space: nowrap;
-            border-top: 1px solid rgba(0,0,0,0.1);
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .marquee-content {
-            display: flex;
-            animation: scroll-left 25s linear infinite;
-        }
-
-        .marquee-item {
-            font-weight: 800;
+            text-decoration: none;
+            color: var(--text-body);
             font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 0 40px;
-            display: flex;
-            align-items: center;
+            font-weight: 500;
+            transition: color 0.3s ease;
         }
 
-        .marquee-item::after {
-            content: '✦';
-            margin-left: 40px;
-            opacity: 0.5;
+        .nav-links a:hover {
+            color: var(--accent);
         }
 
-        @keyframes scroll-left {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } /* Scrolls exactly half its duplicated width */
-        }
-
-        /* --- Hero Section --- */
-        #hero {
-            min-height: 100vh;
-            display: flex;
+        .mobile-toggle {
+            display: none;
             flex-direction: column;
-            justify-content: center;
-            position: relative;
-            background: radial-gradient(circle at 50% 30%, var(--bg-surface) 0%, var(--bg-base) 100%);
+            justify-content: space-between;
+            width: 30px;
+            height: 20px;
+            background: none;
+            border: none;
+            z-index: 1001;
         }
 
-        /* Tech grid background */
-        #hero::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: 
-                linear-gradient(var(--border-light) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
-            background-size: 60px 60px;
-            opacity: 0.3;
-            pointer-events: none;
-        }
-
-        .hero-inner {
-            max-width: 900px;
-            position: relative;
-            z-index: 2;
-            padding-top: 80px;
-        }
-
-        .hero-subtitle {
-            color: var(--cambridge-blue);
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
+        .mobile-toggle span {
             display: block;
-        }
-
-        .hero-desc {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            max-width: 700px;
-        }
-
-        /* Scroll indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            opacity: 0.7;
-            animation: pulse 2s infinite;
-        }
-
-        .scroll-indicator .mouse {
-            width: 24px; height: 36px;
-            border: 2px solid var(--text-secondary);
-            border-radius: 12px;
-            position: relative;
-        }
-
-        .scroll-indicator .wheel {
-            width: 4px; height: 8px;
-            background: var(--cambridge-blue);
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-heading);
+            transition: all 0.3s ease;
             border-radius: 2px;
-            position: absolute;
-            top: 6px; left: 50%;
-            transform: translateX(-50%);
-            animation: scroll-wheel 1.5s infinite;
         }
 
-        @keyframes scroll-wheel {
-            0% { top: 6px; opacity: 1; }
-            100% { top: 18px; opacity: 0; }
+        /* -----------------------------------------------------------
+           6. Buttons (Sleek & Magnetic)
+           ----------------------------------------------------------- */
+        .btn-magnetic-wrap {
+            display: inline-block;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
         }
 
-        /* --- Scroll Animation Classes (Intersection Observer) --- */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: 0.8s var(--curve);
-        }
-        
-        .fade-up.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .btn-primary {
+            background-color: var(--primary);
+            color: #FFFFFF;
         }
 
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.2s; }
-        .delay-3 { transition-delay: 0.3s; }
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px var(--accent-glow);
+        }
 
-        /* --- Core Expertise (Grid) --- */
-        #expertise { background-color: var(--bg-surface); }
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-heading);
+            border-color: var(--border);
+        }
 
-        .expertise-grid {
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* -----------------------------------------------------------
+           7. Core Core Layout Components
+           ----------------------------------------------------------- */
+        #governance {
+            background-color: var(--bg-surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;    
+        }
+
+        .gov-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
         }
 
-        @media (min-width: 768px) { .expertise-grid { grid-template-columns: 1fr 1fr; } }
-
-        .expertise-card {
-            background: var(--bg-base);
-            border: 1px solid var(--border-light);
-            padding: 40px;
-            border-radius: 8px;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .expertise-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-            background: var(--cambridge-blue);
-            transform: scaleY(0);
-            transform-origin: bottom;
-            transition: var(--transition);
-        }
-
-        .expertise-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--cambridge-blue);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .expertise-card:hover::before { transform: scaleY(1); }
-
-        .icon-box {
-            font-size: 2.5rem;
+        .gov-text h2 {
+            font-size: 2.2rem;
             margin-bottom: 24px;
-            color: var(--cambridge-blue);
         }
 
-        .expertise-card h3 {
+        .gov-text p {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .gov-highlight {
+            padding: 30px;
+            background: var(--bg-main);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-style: italic;
+        }
+
+        .gov-highlight .styled-list {
+            font-style: normal;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+            max-width: 600px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .cards-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--bg-surface);
+            padding: 50px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: 0 20px 40px var(--accent-glow);
+            transform: translateY(-5px);
+            border-color: rgba(2, 132, 199, 0.2);
+        }
+
+        .card h3 {
             font-size: 1.5rem;
             margin-bottom: 16px;
         }
 
-        .expertise-card p {
-            color: var(--text-secondary);
-            font-size: 1rem;
+        #about {
+            background-color: var(--bg-alt);
         }
 
-        /* --- Cambridge Connection Section --- */
-        #cambridge {
-            background: linear-gradient(135deg, var(--bg-base) 0%, #0c1524 100%);
-            border-top: 1px solid var(--border-light);
-            border-bottom: 1px solid var(--border-light);
-            position: relative;
-        }
-
-        .cambridge-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 40px;
+        .about-flex {
+            display: flex;
             align-items: center;
-        }
-
-        @media (min-width: 992px) {
-            .cambridge-content { grid-template-columns: 1fr 1fr; }
-        }
-
-        .cambridge-text h2 { margin-bottom: 24px; }
-        .cambridge-text p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .stat-item {
-            border-left: 2px solid var(--cambridge-blue);
-            padding-left: 16px;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--text-primary);
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* --- Contact Section --- */
-        #contact { background-color: var(--bg-base); }
-
-        .contact-wrapper {
+            gap: 60px;
             background: var(--bg-surface);
-            border: 1px solid var(--border-light);
+            padding: 50px;
             border-radius: 12px;
-            padding: 40px;
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
+            border: 1px solid var(--border);
         }
 
-        /* Decorative glowing orb behind form */
-        .contact-wrapper::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%; height: 100%;
-            background: radial-gradient(circle, var(--cambridge-blue-glow) 0%, transparent 60%);
-            z-index: -1;
-            filter: blur(60px);
-            opacity: 0.5;
+        .about-img {
+            flex-shrink: 0;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--bg-main);
+            border: 2px solid var(--border);
         }
 
-        .contact-header { text-align: center; margin-bottom: 40px; }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        @media (min-width: 768px) { .form-grid { grid-template-columns: 1fr 1fr; } }
-
-        .form-group { display: flex; flex-direction: column; gap: 8px; }
-        .form-group.full-width { grid-column: 1 / -1; }
-
-        label { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); }
-
-        input, textarea {
+        .about-img img {
             width: 100%;
-            padding: 16px;
-            background: var(--bg-base);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 4px;
-            color: var(--text-primary);
-            font-family: inherit;
-            transition: var(--transition);
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(40%) sepia(10%) hue-rotate(180deg);
+            transition: filter 0.5s ease;
         }
 
-        input:focus, textarea:focus {
+        .about-img img:hover {
+            filter: grayscale(0%) sepia(0%);
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 0;
+            font-size: 1rem;
+            color: var(--text-heading);
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--font-main);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
             outline: none;
-            border-color: var(--cambridge-blue);
-            box-shadow: 0 0 0 3px rgba(163, 193, 173, 0.1);
+            border-bottom-color: var(--accent);
         }
 
-        textarea { resize: vertical; min-height: 120px; }
+        .form-input:focus ~ .form-label,
+        .form-input:not(:placeholder-shown) ~ .form-label {
+            top: -12px;
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
 
-        /* --- Footer --- */
+        .form-label {
+            position: absolute;
+            left: 0;
+            top: 16px;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+
         footer {
-            background-color: #04070D;
             padding: 40px 0;
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid var(--border);
+            background: var(--bg-surface);
         }
 
-        footer p { color: var(--text-secondary); font-size: 0.9rem; }
+        footer p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* -----------------------------------------------------------
+           8. Responsive Media Modulators
+           ----------------------------------------------------------- */
+        @media (max-width: 1200px) {
+            .hero-ring-wrapper {
+                width: 1300px;
+                height: 1300px;
+                margin-top: -650px;
+                margin-left: -650px;
+            }
+            .outer-ring-text { font-size: 6.5px; }
+        }
+
+        @media (max-width: 900px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%; 
+                width: 80%;
+                max-width: 400px;
+                height: 100vh;
+                background-color: var(--bg-surface);
+                flex-direction: column;
+                justify-content: center;
+                padding: 40px;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.05);
+                transition: right 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .mobile-toggle.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+                background-color: var(--accent);
+            }
+            .mobile-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .mobile-toggle.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+                background-color: var(--accent);
+            }
+
+            section {
+                padding: 70px 0;
+            }
+
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+
+            .gov-grid, .about-flex { 
+                grid-template-columns: 1fr; 
+                flex-direction: column; 
+                gap: 40px; 
+                text-align: center; 
+            }
+
+            .gov-highlight { 
+                border-left: none; 
+                border-top: 3px solid var(--accent); 
+                border-radius: 0 0 8px 8px; 
+                text-align: left;
+            }
+
+            .card { padding: 30px 20px; }
+            .styled-list li { text-align: left; }
+
+            .hero-ring-wrapper {
+                width: 900px;
+                height: 900px;
+                margin-top: -450px;
+                margin-left: -450px;
+                opacity: 0.15;
+            }
+            .outer-ring-text { font-size: 9px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 2.2rem; }
+            .btn { width: 100%; margin-bottom: 10px; }
+            .btn-magnetic-wrap { display: block; width: 100%; }
+
+            .hero-ring-wrapper {
+                width: 600px;
+                height: 600px;
+                margin-top: -300px;
+                margin-left: -300px;
+            }
+            .outer-ring-text { font-size: 12px; }
+        }
     </style>
 </head>
 <body>
 
-    <nav id="navbar">
-        <div class="container nav-content">
-            <a href="#" class="logo">Nelons<span class="text-accent">IT</span></a>
-            <div class="nav-links">
-                <a href="#expertise">Capabilities</a>
-                <a href="#cambridge">Local Expertise</a>
-                <a href="#contact">Make an Enquiry</a>
-            </div>
-        </div>
-    </nav>
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
 
-    <section id="hero">
-        <div class="container hero-inner fade-up">
-            <span class="hero-subtitle">Consulting • Security • Intelligence</span>
-            <h1 class="heading-lg">Architecting Secure & Intelligent IT Systems in <span class="text-accent">Cambridge</span></h1>
-            <p class="hero-desc">We bridge the gap between rigorous cybersecurity standards and cutting-edge AI integrations. Expert IT management, robust technical documentation, and immediate local response for Cambridge businesses.</p>
-            <a href="#contact" class="btn">Initiate Consultation</a>
-        </div>
-        
-        <div class="scroll-indicator">
-            <div class="mouse"><div class="wheel"></div></div>
-            Scroll to Explore
-        </div>
-    </section>
-
-    <div class="marquee-container">
-        <div class="marquee-content">
-            <span class="marquee-item">AI Workflow Integration</span>
-            <span class="marquee-item">Zero-Trust Cybersecurity</span>
-            <span class="marquee-item">IT Infrastructure Management</span>
-            <span class="marquee-item">Technical Documentation</span>
-            <span class="marquee-item">Silicon Fen Partner</span>
-            <span class="marquee-item">Compliance & Auditing</span>
-            <span class="marquee-item">AI Workflow Integration</span>
-            <span class="marquee-item">Zero-Trust Cybersecurity</span>
-            <span class="marquee-item">IT Infrastructure Management</span>
-            <span class="marquee-item">Technical Documentation</span>
-            <span class="marquee-item">Silicon Fen Partner</span>
-            <span class="marquee-item">Compliance & Auditing</span>
-        </div>
-    </div>
-
-    <section id="expertise" class="section-padding">
+    <header>
         <div class="container">
-            <h2 class="heading-md fade-up">Comprehensive Technical <span class="text-accent">Capabilities</span></h2>
-            
-            <div class="expertise-grid">
-                <div class="expertise-card fade-up">
-                    <div class="icon-box">🛡️</div>
-                    <h3>Cybersecurity & Defense</h3>
-                    <p>Proactive threat hunting, penetration testing mitigation, and zero-trust architecture implementation. We harden your network against modern vectors, ensuring your proprietary data remains uncompromised.</p>
-                </div>
-
-                <div class="expertise-card fade-up delay-1">
-                    <div class="icon-box">🧠</div>
-                    <h3>AI & Automation Systems</h3>
-                    <p>Deploy secure, custom AI models and LLM wrappers designed to automate tedious workflows. We integrate intelligence directly into your processes while maintaining strict data privacy and isolation.</p>
-                </div>
-
-                <div class="expertise-card fade-up delay-2">
-                    <div class="icon-box">⚡</div>
-                    <h3>IT Management & Consultancy</h3>
-                    <p>Fractional CTO services and end-to-end IT lifecycle management. From hardware procurement to cloud infrastructure optimization, we act as the strategic technical arm of your business.</p>
-                </div>
-
-                <div class="expertise-card fade-up delay-3">
-                    <div class="icon-box">📑</div>
-                    <h3>Documentation & Compliance</h3>
-                    <p>Impeccable technical writing. We generate standard operating procedures (SOPs), system architecture schematics, and compliance documentation required for ISO27001 and Cyber Essentials certifications.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="cambridge" class="section-padding">
-        <div class="container cambridge-content">
-            <div class="cambridge-text fade-up">
-                <span class="hero-subtitle">Silicon Fen Integration</span>
-                <h2 class="heading-md">Deeply Rooted in the <span class="text-accent">Cambridge</span> Ecosystem</h2>
-                <p>Operating exclusively out of Cambridge allows us to provide a level of service that remote MSPs simply cannot match. We understand the specific demands of the bio-tech, research, and software firms that drive this city.</p>
-                <p>When critical infrastructure fails, or a severe security breach is detected, Nelons IT provides immediate, physical on-site intervention.</p>
+            <nav>
+                <a href="#hero" class="logo interactable">
+                    Nelons IT
+                    <span>Cambridge, UK</span>
+                </a>
                 
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value">1Hr</div>
-                        <div class="stat-label">On-Site Response Target</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">100%</div>
-                        <div class="stat-label">Local Focus</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="cambridge-visual fade-up delay-1" style="height: 400px; background: rgba(163, 193, 173, 0.05); border: 1px solid var(--border-light); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                <div style="text-align: center; color: var(--cambridge-blue); opacity: 0.7;">
-                    <div style="font-size: 4rem; margin-bottom: 10px;">📍</div>
-                    <div style="font-weight: bold; letter-spacing: 2px;">CB1 - CB25 COVERAGE</div>
-                </div>
-            </div>
-        </div>
-    </section>
+                <button class="mobile-toggle interactable" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
 
-    <section id="contact" class="section-padding">
-        <div class="container">
-            <div class="contact-wrapper fade-up">
-                <div class="contact-header">
-                    <h2 class="heading-md" style="margin-bottom: 10px;">Make an Enquiry</h2>
-                    <p style="color: var(--text-secondary);">Secure your infrastructure or integrate AI today. Fill out the form below for a rapid response.</p>
+                <div class="nav-links" id="navLinks">
+                    <a href="#governance" class="interactable nav-item">Governance</a>
+                    <a href="#upskilling" class="interactable nav-item">Upskilling</a>
+                    <a href="#services" class="interactable nav-item">Services</a>
+                    <a href="#about" class="interactable nav-item">Advisor</a>
+                    <div class="btn-magnetic-wrap nav-item">
+                        <a href="#enquiry" class="btn btn-outline interactable">Enquire</a>
+                    </div>
                 </div>
+            </nav>
+        </div>
+    </header>
 
-                <form action="#" method="POST">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" required placeholder="John Doe">
+    <main>
+        <section id="hero">
+            <div class="hero-ring-wrapper">
+                <div class="paradox-visual-container" id="interactive-space">
+                    <div class="paradox-visual-base">
+                        <div class="core-circle-interactive"></div>
+                        
+                        <div class="hero-interactive-ring spin-fwd-int" style="width: 25%; height: 25%;">
+                            <svg viewBox="0 0 200 200">
+                                <circle class="stylistic-line-interactive inner-line-int" cx="100" cy="100" r="85" />
+                            </svg>
                         </div>
-                        <div class="form-group">
-                            <label for="company">Company Name</label>
-                            <input type="text" id="company" name="company" required placeholder="Cambridge Tech Ltd">
+                        
+                        <div class="hero-interactive-ring spin-rev-int" style="width: 55%; height: 55%;">
+                            <svg viewBox="0 0 200 200">
+                                <circle class="stylistic-line-interactive mid-line-int" cx="100" cy="100" r="85" />
+                            </svg>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Work Email</label>
-                            <input type="email" id="email" name="email" required placeholder="john@company.co.uk">
-                        </div>
-                        <div class="form-group">
-                            <label for="interest">Primary Interest</label>
-                            <select id="interest" name="interest" style="width: 100%; padding: 16px; background: var(--bg-base); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; color: var(--text-primary); font-family: inherit;">
-                                <option value="security">Cybersecurity Audit</option>
-                                <option value="ai">AI Integration</option>
-                                <option value="management">IT Management</option>
-                                <option value="docs">Technical Documentation</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="message">Project Details</label>
-                            <textarea id="message" name="message" required placeholder="Briefly describe your current IT infrastructure and what you are looking to achieve..."></textarea>
-                        </div>
-                        <div class="form-group full-width" style="margin-top: 10px;">
-                            <button type="submit" class="btn" style="width: 100%;">Submit Secure Enquiry</button>
+                        
+                        <div class="hero-interactive-ring spin-fwd-int" style="width: 100%; height: 100%;">
+                            <svg viewBox="0 0 600 600">
+                                <defs>
+                                    <path id="textPathCircuit" d="M 300, 300 m -265, 0 a 265,265 0 1,1 530,0 a 265,265 0 1,1 -530,0" />
+                                </defs>
+                                <circle class="stylistic-line-interactive outer-line-int" cx="300" cy="300" r="265" />
+                                
+                                <text class="outer-ring-text">
+                                    <textPath href="#textPathCircuit" startOffset="0%">
+                                        ARTIFICIAL INTELLIGENCE &nbsp;&nbsp;•&nbsp;&nbsp; SECURITY &nbsp;&nbsp;•&nbsp;&nbsp; DATA &nbsp;&nbsp;•&nbsp;&nbsp; FUTURE &nbsp;&nbsp;•&nbsp;&nbsp; ARTIFICIAL INTELLIGENCE &nbsp;&nbsp;•&nbsp;&nbsp; SECURITY &nbsp;&nbsp;•&nbsp;&nbsp; DATA &nbsp;&nbsp;•&nbsp;&nbsp; FUTURE &nbsp;&nbsp;•&nbsp;&nbsp; ARTIFICIAL INTELLIGENCE &nbsp;&nbsp;•&nbsp;&nbsp; SECURITY &nbsp;&nbsp;•&nbsp;&nbsp; DATA &nbsp;&nbsp;•&nbsp;&nbsp; FUTURE
+                                    </textPath>
+                                </text>
+                            </svg>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
-    </section>
+
+            <div class="container hero-content">
+                <h1 class="reveal">Empower your team.<br>Protect your business.</h1>
+                <p class="reveal" style="transition-delay: 0.1s;">Bespoke AI upskilling workshops and fractional governance frameworks designed for high-growth Cambridge businesses. Move fast without leaking data.</p>
+                <div class="reveal btn-magnetic-wrap" style="transition-delay: 0.2s;">
+                    <a href="#enquiry" class="btn btn-primary interactable">Book a Free Risk Assessment</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="governance">
+            <div class="risk-ring" style="width: 320px; height: 320px; animation-duration: 15s; animation-direction: reverse; top: -40px; right: -40px;"></div>
+            <div class="risk-ring" style="width: 500px; height: 500px; animation-duration: 30s; top: -120px; right: -120px; opacity: 0.06;"></div>
+
+            <div class="container gov-grid">
+                <div class="gov-text reveal">
+                    <h2>AI Data Governance & Compliance</h2>
+                    <p>Cambridge’s deep-tech and biotech startups are sitting on multi-million-pound intellectual property, yet many are blindly exposing themselves to catastrophic data leaks and severe regulatory penalties.</p>
+                    <p>With the <strong>EU AI Act</strong> entering full enforcement for high-risk systems this August 2026, compliance is no longer a distant "nice-to-have"—it is an immediate survival requirement for any local firm exporting to or operating in Europe.</p>
+                </div>
+                <div class="gov-highlight reveal" style="transition-delay: 0.1s;">
+                    "I bridge this high-stakes gap as your Fractional AI Governance Officer, providing C-suite-level risk management without the full-time executive price tag."
+                </div>
+            </div>
+        </section>
+
+        <section id="upskilling" class="bg-alt">
+            <div class="container gov-grid">
+                <div class="gov-text reveal">
+                    <h2>AI Upskilling & Literacy</h2>
+                    <p><strong>The Concept:</strong> While executives want AI adoption, a massive bottleneck in the UK right now is skills and management capability. Employees often use AI secretly or poorly, leading to hallucinations and errors.</p>
+                    <p><strong>The Service:</strong> Deliver bespoke, interactive corporate workshops teaching teams how to use AI tools effectively. This covers advanced prompting, multi-model selection, and collaborative AI workflows tailored to their specific department (e.g., AI for HR, AI for Marketing).</p>
+                    <p><strong>The Cambridge Target:</strong> Traditional mid-sized corporate offices, local building societies, and educational institutions looking to modernize their staff.</p>
+                </div>
+                <div class="gov-highlight reveal" style="transition-delay: 0.1s;">
+                    <h4 style="margin-bottom: 12px; color: var(--text-heading);">Workshop Delivery & Monetization</h4>
+                    <ul class="styled-list">
+                        <li>Create a landing page on your website detailing your workshop syllabus.</li>
+                        <li>Pitch directly to business owners on LinkedIn.</li>
+                        <li>Secure a deposit upfront to fund any minor workshop materials or transport, meaning £0 out-of-pocket startup costs.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2>The Safe Velocity Framework</h2>
+                    <p>By auditing your current software stack, stopping staff from leaking proprietary IP into public models, and establishing airtight internal usage policies, we ensure your team innovates safely.</p>
+                </div>
+                
+                <div class="cards-wrapper">
+                    <div class="card reveal">
+                        <h3>Secure Governance & Policy</h3>
+                        <p>Establishing necessary friction against data breaches and regulatory fines.</p>
+                        <ul class="styled-list">
+                            <li>Custom corporate AI Usage Policy</li>
+                            <li>Data privacy audits & compliance mapping</li>
+                            <li>EU AI Act tracking & alignment</li>
+                            <li>Vetting third-party AI vendors</li>
+                        </ul>
+                    </div>
+
+                    <div class="card reveal" style="transition-delay: 0.1s;">
+                        <h3>Practical Staff Upskilling</h3>
+                        <p>Teaching your staff exactly how to use AI safely and legally.</p>
+                        <ul class="styled-list">
+                            <li>Role-specific interactive workshops</li>
+                            <li>Advanced prompt engineering for industry</li>
+                            <li>Establishing internal "AI Champions"</li>
+                            <li>Secure LLM usage training</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <div class="about-flex reveal">
+                    <div class="about-img interactable">
+                        <img src="Josh.jpg" alt="AI Governance Advisor" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22220%22 height=%22220%22 viewBox=%220 0 220%22%3E%3Crect width=%22220%22 height=%22220%22 fill=%22%23e5e7eb%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2214%22 fill=%22%239ca3af%22%3EImage Placeholder%3C/text%3E%3C/svg%3E'">
+                    </div>
+                    <div class="about-text">
+                        <h2 style="margin-bottom: 12px; font-size: 2rem;">Meet Your Advisor</h2>
+                        <p>Management is terrified of data leaks, while employees are secretly using unapproved AI tools to save time (Shadow AI). I solve this ultimate corporate paradox. By fusing strict compliance with practical training, I don't just tell companies what <em>not</em> to do—I give them the framework to leverage AI rapidly, legally, and securely.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="enquiry">
+            <div class="container">
+                <div class="section-header reveal" style="margin: 0 auto 50px; text-align: center;">
+                    <h2>Request an Audit</h2>
+                    <p>Secure your operations today. Submit your details below to schedule a 20-minute introductory risk assessment.</p>
+                </div>
+                
+                <div class="form-container reveal" style="transition-delay: 0.1s;">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" class="form-input interactable" placeholder=" " required>
+                            <label for="name" class="form-label">Full Name</label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="email" id="email" class="form-input interactable" placeholder=" " required>
+                            <label for="email" class="form-label">Work Email</label>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea id="message" class="form-input interactable" placeholder=" " required></textarea>
+                            <label for="message" class="form-label">How can we help your business?</label>
+                        </div>
+
+                        <div class="btn-magnetic-wrap" style="width: 100%; text-align: center; margin-top: 20px;">
+                            <button type="submit" class="btn btn-primary interactable" style="width: 100%; max-width: 250px;">Submit Enquiry</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Nelons IT. Local IT & Security Consultancy based in Cambridge, UK.</p>
+            <p>&copy; 2026 Nelons IT Limited. Cambridge, UK. Corporate AI Strategy & Governance.</p>
         </div>
     </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // Intersection Observer for scroll animations (fade-up)
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: "0px 0px -50px 0px"
-            };
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Smooth Follow Cursor Mechanics
+            const cursorDot = document.getElementById('cursor-dot');
+            const cursorRing = document.getElementById('cursor-ring');
+            
+            let mouseX = 0, mouseY = 0;
+            let ringX = 0, ringY = 0;
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
-                        observer.unobserve(entry.target); // Only animate once
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll(".fade-up").forEach(el => {
-                observer.observe(el);
-            });
-
-            // Navbar background transparency on scroll
-            const navbar = document.getElementById("navbar");
-            window.addEventListener("scroll", () => {
-                if (window.scrollY > 50) {
-                    navbar.style.background = "var(--bg-glass)";
-                    navbar.style.borderBottom = "1px solid var(--border-light)";
-                    navbar.style.padding = "15px 0";
-                } else {
-                    navbar.style.background = "transparent";
-                    navbar.style.borderBottom = "1px solid transparent";
-                    navbar.style.padding = "20px 0";
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                
+                if(cursorDot) {
+                    cursorDot.style.left = `${mouseX}px`;
+                    cursorDot.style.top = `${mouseY}px`;
                 }
             });
+
+            const renderRing = () => {
+                ringX += (mouseX - ringX) * 0.15;
+                ringY += (mouseY - ringY) * 0.15;
+                
+                if(cursorRing) {
+                    cursorRing.style.left = `${ringX}px`;
+                    cursorRing.style.top = `${ringY}px`;
+                }
+                requestAnimationFrame(renderRing);
+            };
+            requestAnimationFrame(renderRing);
+
+            const interactables = document.querySelectorAll('.interactable');
+            interactables.forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+            });
+
+            // 2. Content Intersection Scroll Reveal
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOnScroll = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.1, 
+                rootMargin: "0px 0px -50px 0px"
+            });
+            revealElements.forEach(el => revealOnScroll.observe(el));
+
+            // 3. Magnetic UI Micro-interactions
+            const magneticElements = document.querySelectorAll('.btn-magnetic-wrap');
+            magneticElements.forEach(elem => {
+                elem.addEventListener('mousemove', function(e) {
+                    const pos = this.getBoundingClientRect();
+                    const mx = e.clientX - pos.left - pos.width/2;
+                    const my = e.clientY - pos.top - pos.height/2;
+                    this.style.transform = `translate(${mx * 0.15}px, ${my * 0.15}px)`;
+                });
+                elem.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translate(0px, 0px)';
+                });
+            });
+
+            // 4. Mobile Menu Navigation Toggles
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const navLinks = document.getElementById('navLinks');
+            const navItems = document.querySelectorAll('.nav-item');
+
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', () => {
+                    mobileToggle.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+
+                navItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        mobileToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
+                });
+            }
+
+            // 5. Contact Form Validation Async Animation Loop
+            const form = document.getElementById('contactForm');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const btn = form.querySelector('button');
+                const originalText = btn.innerText;
+                
+                btn.innerText = "Sending...";
+                btn.style.opacity = "0.7";
+                
+                setTimeout(() => {
+                    btn.innerText = "Sent Successfully!";
+                    btn.style.backgroundColor = "#10B981"; 
+                    btn.style.opacity = "1";
+                    form.reset();
+                    
+                    setTimeout(() => {
+                        btn.innerText = originalText;
+                        btn.style.backgroundColor = "";
+                    }, 3000);
+                }, 1000);
+            });
+
+            // 6. Expanded Hyper-Reactive 3D Ring Tracking Matrix
+            const heroSection = document.getElementById('hero');
+            const interactiveSpace = document.getElementById('interactive-space');
+
+            if (heroSection && interactiveSpace) {
+                heroSection.addEventListener('mousemove', (e) => {
+                    const rect = heroSection.getBoundingClientRect();
+                    
+                    // Maps layout space coordinates down to center axis metrics (-1.0 to +1.0)
+                    const x = (e.clientX - rect.left - (rect.width / 2)) / (rect.width / 2);
+                    const y = (e.clientY - rect.top - (rect.height / 2)) / (rect.height / 2);
+                    
+                    // Amplified spatial tilt limit values (Increased up to a 32-degree tilt index)
+                    const rotateX = -y * 32; 
+                    const rotateY = x * 32; 
+                    
+                    // High-fidelity absolute dynamic polar track distance vector math
+                    const distance = Math.sqrt(x * x + y * y);
+                    const proximity = Math.max(0, 1 - distance);
+                    
+                    // Instantly push variables directly onto active thread styles
+                    interactiveSpace.style.setProperty('--tilt-x', rotateX.toFixed(2));
+                    interactiveSpace.style.setProperty('--tilt-y', rotateY.toFixed(2));
+                    interactiveSpace.style.setProperty('--proximity', proximity.toFixed(2));
+                });
+
+                // Smoothly ease positional variables back into layout tracking baselines upon exit
+                heroSection.addEventListener('mouseleave', () => {
+                    interactiveSpace.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease';
+                    interactiveSpace.style.setProperty('--tilt-x', '0');
+                    interactiveSpace.style.setProperty('--tilt-y', '0');
+                    interactiveSpace.style.setProperty('--proximity', '0');
+                });
+
+                heroSection.addEventListener('mouseenter', () => {
+                    interactiveSpace.style.transition = 'transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s ease';
+                });
+            }
         });
     </script>
 </body>
