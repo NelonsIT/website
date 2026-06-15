@@ -190,7 +190,7 @@
         }
 
         /* -----------------------------------------------------------
-           4. Enhanced High-Velocity 3D Canvas (Wider & Hyper-Colorful)
+           4. Enhanced High-Velocity 3D Canvas
            ----------------------------------------------------------- */
         #hero {
             min-height: 95vh;
@@ -206,7 +206,6 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            /* Fills more of the viewport screen space on either side */
             width: 1700px;
             height: 1700px;
             margin-top: -850px;
@@ -214,7 +213,6 @@
             z-index: 1;
             pointer-events: none; 
             perspective: 3000px;  
-            /* Keeps background elements subtle, scaling visibility with cursor proximity */
             opacity: calc(0.28 + var(--proximity, 0) * 0.32);
             transition: opacity 0.5s var(--ease-out);
         }
@@ -224,7 +222,6 @@
             height: 100%;
             transform-style: preserve-3d;
             will-change: transform;
-            /* Driven entirely via real-time hardware accelerated Javascript styling variables */
             transform: rotateX(calc(var(--tilt-x, 0) * 1deg)) rotateY(calc(var(--tilt-y, 0) * 1deg));
             filter: saturate(calc(1 + var(--proximity, 0) * 1.8)); 
             transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s ease;
@@ -241,7 +238,6 @@
             transform-style: preserve-3d;
         }
 
-        /* Central Reactive Core Glow */
         .core-circle-interactive {
             position: absolute;
             width: 220px;
@@ -276,7 +272,6 @@
             stroke-width: calc(0.4 + var(--proximity, 0) * 0.8); 
         }
 
-        /* Hyper-Colorful Structural Dashed Layer Circuits */
         .inner-line-int { 
             stroke: var(--spectrum-cyan); 
             stroke-dasharray: 40 20 10 20; 
@@ -293,7 +288,6 @@
             filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.2));
         }
 
-        /* Tiny Continuous Micro-Typography Embeds */
         .outer-ring-text {
             font-size: 5px;
             font-weight: 700;
@@ -304,7 +298,6 @@
             transition: fill-opacity 0.3s ease;
         }
 
-        /* Ambient Dynamic Kinetics */
         @keyframes spinFwdInteractive {
             from { transform: rotate(0deg) translateZ(30px); }
             to { transform: rotate(360deg) translateZ(30px); }
@@ -314,7 +307,6 @@
             to { transform: rotate(0deg) translateZ(60px); }
         }
 
-        /* Fast-acting interactive loops matching user prompt enhancements */
         .spin-fwd-int { animation: spinFwdInteractive 45s linear infinite; }
         .spin-rev-int { animation: spinRevInteractive 30s linear infinite; }
 
@@ -453,7 +445,7 @@
         }
 
         /* -----------------------------------------------------------
-           7. Core Core Layout Components
+           7. Core Layout Components
            ----------------------------------------------------------- */
         #governance {
             background-color: var(--bg-surface);
@@ -487,10 +479,6 @@
             font-size: 1.1rem;
             color: var(--text-heading);
             font-style: italic;
-        }
-
-        .gov-highlight .styled-list {
-            font-style: normal;
         }
 
         .section-header {
@@ -823,17 +811,11 @@
             <div class="container gov-grid">
                 <div class="gov-text reveal">
                     <h2>AI Upskilling & Literacy</h2>
-                    <p><strong>The Concept:</strong> While executives want AI adoption, a massive bottleneck in the UK right now is skills and management capability. Employees often use AI secretly or poorly, leading to hallucinations and errors.</p>
-                    <p><strong>The Service:</strong> Deliver bespoke, interactive corporate workshops teaching teams how to use AI tools effectively. This covers advanced prompting, multi-model selection, and collaborative AI workflows tailored to their specific department (e.g., AI for HR, AI for Marketing).</p>
-                    <p><strong>The Cambridge Target:</strong> Traditional mid-sized corporate offices, local building societies, and educational institutions looking to modernize their staff.</p>
+                    <p>While executives are eager to capitalize on the AI boom, they are hitting a critical bottleneck: a massive internal skills deficit. Right now, many employees are practicing "Shadow AI" using public tools secretly and poorly, resulting in costly factual hallucinations, operational errors, and wasted time.</p>
+                    <p>I solve this by delivering bespoke, interactive AI Upskilling & Literacy Workshops tailored specifically to your organization's departments, whether in marketing, HR, or finance. By replacing guesswork with structured expertise in advanced prompting, multi-model selection, and secure collaborative workflows, I transform AI from a hidden corporate liability into a transparent, high-performing engine for growth.</p>
                 </div>
                 <div class="gov-highlight reveal" style="transition-delay: 0.1s;">
-                    <h4 style="margin-bottom: 12px; color: var(--text-heading);">Workshop Delivery & Monetization</h4>
-                    <ul class="styled-list">
-                        <li>Create a landing page on your website detailing your workshop syllabus.</li>
-                        <li>Pitch directly to business owners on LinkedIn.</li>
-                        <li>Secure a deposit upfront to fund any minor workshop materials or transport, meaning £0 out-of-pocket startup costs.</li>
-                    </ul>
+                    "I eliminate the operational risks of Shadow AI by deploying customized training matrix pipelines—transforming your workforce into an elite, risk-aware engine for secure output."
                 </div>
             </div>
         </section>
@@ -1011,28 +993,30 @@
 
             // 5. Contact Form Validation Async Animation Loop
             const form = document.getElementById('contactForm');
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const btn = form.querySelector('button');
-                const originalText = btn.innerText;
-                
-                btn.innerText = "Sending...";
-                btn.style.opacity = "0.7";
-                
-                setTimeout(() => {
-                    btn.innerText = "Sent Successfully!";
-                    btn.style.backgroundColor = "#10B981"; 
-                    btn.style.opacity = "1";
-                    form.reset();
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const btn = form.querySelector('button');
+                    const originalText = btn.innerText;
+                    
+                    btn.innerText = "Sending...";
+                    btn.style.opacity = "0.7";
                     
                     setTimeout(() => {
-                        btn.innerText = originalText;
-                        btn.style.backgroundColor = "";
-                    }, 3000);
-                }, 1000);
-            });
+                        btn.innerText = "Sent Successfully!";
+                        btn.style.backgroundColor = "#10B981"; 
+                        btn.style.opacity = "1";
+                        form.reset();
+                        
+                        setTimeout(() => {
+                            btn.innerText = originalText;
+                            btn.style.backgroundColor = "";
+                        }, 3000);
+                    }, 1000);
+                });
+            }
 
-            // 6. Expanded Hyper-Reactive 3D Ring Tracking Matrix
+            // 6. Hyper-Reactive 3D Ring Tracking Matrix
             const heroSection = document.getElementById('hero');
             const interactiveSpace = document.getElementById('interactive-space');
 
@@ -1040,25 +1024,20 @@
                 heroSection.addEventListener('mousemove', (e) => {
                     const rect = heroSection.getBoundingClientRect();
                     
-                    // Maps layout space coordinates down to center axis metrics (-1.0 to +1.0)
                     const x = (e.clientX - rect.left - (rect.width / 2)) / (rect.width / 2);
                     const y = (e.clientY - rect.top - (rect.height / 2)) / (rect.height / 2);
                     
-                    // Amplified spatial tilt limit values (Increased up to a 32-degree tilt index)
                     const rotateX = -y * 32; 
                     const rotateY = x * 32; 
                     
-                    // High-fidelity absolute dynamic polar track distance vector math
                     const distance = Math.sqrt(x * x + y * y);
                     const proximity = Math.max(0, 1 - distance);
                     
-                    // Instantly push variables directly onto active thread styles
                     interactiveSpace.style.setProperty('--tilt-x', rotateX.toFixed(2));
                     interactiveSpace.style.setProperty('--tilt-y', rotateY.toFixed(2));
                     interactiveSpace.style.setProperty('--proximity', proximity.toFixed(2));
                 });
 
-                // Smoothly ease positional variables back into layout tracking baselines upon exit
                 heroSection.addEventListener('mouseleave', () => {
                     interactiveSpace.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease';
                     interactiveSpace.style.setProperty('--tilt-x', '0');
