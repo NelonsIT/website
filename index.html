@@ -434,11 +434,7 @@
         }
 
         .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            pointer-events: none;
-            transform: none !important;
-            box-shadow: none !important;
+            cursor: wait;
         }
 
         .btn-outline {
@@ -885,17 +881,17 @@
                 <div class="form-container reveal" style="transition-delay: 0.1s;">
                     <form id="contactForm">
                         <div class="form-group">
-                            <input type="text" id="name" class="form-input interactable" placeholder=" " required>
+                            <input type="text" id="name" name="name" class="form-input interactable" placeholder=" " required>
                             <label for="name" class="form-label">Full Name</label>
                         </div>
                         
                         <div class="form-group">
-                            <input type="email" id="email" class="form-input interactable" placeholder=" " required>
+                            <input type="email" id="email" name="email" class="form-input interactable" placeholder=" " required>
                             <label for="email" class="form-label">Work Email</label>
                         </div>
 
                         <div class="form-group">
-                            <textarea id="message" class="form-input interactable" placeholder=" " required></textarea>
+                            <textarea id="message" name="message" class="form-input interactable" placeholder=" " required></textarea>
                             <label for="message" class="form-label">How can we help your business?</label>
                         </div>
 
@@ -999,54 +995,55 @@
                 });
             }
 
-            // 5. Contact Form Validation & Mail Delivery Logic
+            // 5. Contact Form Validation Async Background Post
             const form = document.getElementById('contactForm');
-
             if (form) {
-                form.addEventListener('submit', (e) => {
-                    // Prevent default POST/GET submission
+                form.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    
                     const btn = form.querySelector('button');
                     const originalText = btn.innerText;
                     
-                    // 1. Extract and sanitize input values
-                    const nameInput = document.getElementById('name').value.trim();
-                    const emailInput = document.getElementById('email').value.trim();
-                    const messageInput = document.getElementById('message').value.trim();
-                    
-                    // 2. Transition State: Processing
-                    btn.innerText = "Initializing...";
+                    // Trigger loading feedback
+                    btn.innerText = "Sending...";
                     btn.setAttribute('disabled', 'true');
-                    btn.style.transition = "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)";
+                    btn.style.opacity = "0.7";
                     
-                    // 3. Construct the email payload
-                    const targetEmail = "josh@nelonsit.co.uk"; 
-                    const subject = encodeURIComponent(`New Audit Enquiry from ${nameInput}`);
-                    const body = encodeURIComponent(`Name: ${nameInput}\nEmail: ${emailInput}\n\nEnquiry Details:\n${messageInput}`);
+                    const formData = new FormData(form);
+                    const endpoint = "https://formspree.io/f/mrevjoyk"; 
                     
-                    // 4. Emulate a micro-delay for UX fluidity before firing the mail client
-                    setTimeout(() => {
-                        // Trigger the native OS mail client
-                        window.location.href = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
+                    try {
+                        const response = await fetch(endpoint, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'Accept': 'application/json'
+                            }
+                        });
                         
-                        // 5. Transition State: Success
-                        btn.innerText = "Mail Client Opened!";
-                        btn.style.backgroundColor = "#10B981"; // Success Green
+                        if (response.ok) {
+                            btn.innerText = "Sent Successfully!";
+                            btn.style.backgroundColor = "#10B981"; 
+                            btn.style.color = "#FFFFFF";
+                            btn.style.opacity = "1";
+                            form.reset();
+                        } else {
+                            throw new Error('Server returned submission error');
+                        }
+                    } catch (error) {
+                        btn.innerText = "Error. Try again.";
+                        btn.style.backgroundColor = "#EF4444";
                         btn.style.color = "#FFFFFF";
-                        btn.removeAttribute('disabled');
-                        
-                        // Clear the form fields for privacy/security
-                        form.reset();
-                        
-                        // 6. Transition State: Reset to default after 4 seconds
+                        btn.style.opacity = "1";
+                    } finally {
+                        // Reset button back to standard interactive state after timeout
                         setTimeout(() => {
                             btn.innerText = originalText;
-                            btn.style.backgroundColor = ""; // Revert to CSS variable
+                            btn.style.backgroundColor = "";
                             btn.style.color = "";
+                            btn.removeAttribute('disabled');
+                            btn.style.opacity = "1";
                         }, 4000);
-                        
-                    }, 600); // 600ms artificial delay for visual feedback
+                    }
                 });
             }
 
